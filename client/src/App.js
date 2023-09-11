@@ -36,7 +36,7 @@ const App = () => {
       {!authToken && <Auth />}
       {authToken &&
         <>
-          <SprintCard goals={goals}/>
+          <SprintCard goals={goals} getGoals = {getGoals}/>
         </>
       }
 

@@ -1,13 +1,20 @@
 import GoalItem from "./goalObject";
+import ModifyGoal from "./ModifyGoal";
+import { useState } from "react";
 
-const SprintCard = ({ goals }) => {
+const SprintCard = ({ goals, getGoals }) => {
 
     const goalList = goals
+    const [showModifyGoal, setShowModifyGoal] = useState(false);
 
     return (
         <div className="sprintCard">
             <h1>Sprint Card - Goal List</h1>
-            {goalList?.map((goal) => <GoalItem goal={goal}/>)}
+            <div className="button-container">
+                <button className="create" onClick = {() => setShowModifyGoal(true)}>ADD GOAL</button>
+            </div>
+            {goalList?.map((goal) => <GoalItem goal={goal} getGoals={getGoals}/>)}
+            {showModifyGoal && <ModifyGoal mode={'create'} setShowModifyGoal={setShowModifyGoal} getGoals = {getGoals}/>}
         </div>
     )
 }
