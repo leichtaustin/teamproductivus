@@ -1,9 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModifyGoal from './ModifyGoal';
 
 const GoalItem = ({goal, getGoals}) => {
 
     const [showModifyGoal, setShowModifyGoal] = useState(false);
+    const [ backgroundColor, setBackgroundColor ] = useState('red');
+    const [ progressPerc, setProgressPerc ] = useState((goal.current_val / goal.target_val) * 100)
+    
+    useEffect(() => {
+        if(progressPerc < 33) {
+            setBackgroundColor('red');
+        } else if (progressPerc >= 33 && progressPerc < 66) {
+            setBackgroundColor('yellow')
+        } else {
+            setBackgroundColor('green')
+        }
+    }, [progressPerc])
+
 
     const deleteGoal = async () => {
         try {
@@ -24,6 +37,10 @@ const GoalItem = ({goal, getGoals}) => {
                 <p className="goalName">{goal.goal_name}</p>
                 <p className="target_val">{goal.target_val}</p>
                 <p className="current_val">{goal.current_val}</p>
+                <div className='progressBarContainer'>
+                    <div className='progress' style={{ width: `${progressPerc}%`, backgroundColor: backgroundColor }}>
+                    </div>
+                </div>
             </div>
 
             <div className="button-container">
@@ -31,7 +48,7 @@ const GoalItem = ({goal, getGoals}) => {
                 <button className="delete" onClick={deleteGoal}>DELETE</button>
 
             </div>
-            {showModifyGoal && <ModifyGoal mode={'edit'} setShowModifyGoal={setShowModifyGoal} goal={goal} getGoals={getGoals}/>}
+            {showModifyGoal && <ModifyGoal mode={'edit'} setShowModifyGoal={setShowModifyGoal} goal={goal} getGoals={getGoals} setProgressPerc={setProgressPerc} />}
         </li>
     )
 }

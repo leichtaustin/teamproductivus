@@ -3,6 +3,7 @@ import SprintCard from "./components/SprintCard";
 import Auth from "./components/Auth";
 import { useState, useEffect } from "react";
 import { useCookies } from 'react-cookie';
+import DailyLog from "./components/DailyLog";
 
 const App = () => {
   
@@ -32,13 +33,20 @@ const App = () => {
   
   return (
     <div className="App">
-      <PageHeader />
-      {!authToken && <Auth />}
-      {authToken &&
-        <>
-          <SprintCard goals={goals} getGoals = {getGoals}/>
-        </>
-      }
+      <div className="sprintSection">
+        <PageHeader />
+        {!authToken && <Auth />}
+        {authToken &&
+          <>
+            <SprintCard goals={goals} getGoals = {getGoals}/>
+          </>
+        }
+      </div>
+      <div className="dailyLogSection">
+        {goals && <DailyLog goals = {goals}/>}
+      </div>
+
+     
 
     </div>
   );

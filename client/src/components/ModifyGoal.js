@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 import { useState } from 'react';
 
 
-const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals }) => {
+const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals, setProgressPerc }) => {
     
     const [cookies, setCookie, removeCookie] = useCookies(null);
     
@@ -46,6 +46,7 @@ const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals }) => {
             if (response.status === 200) {
                 setShowModifyGoal(false);
                 getGoals();
+                setProgressPerc((data.current_value / data.target_value) * 100)
             }
         } catch (err) {
             console.error(err);
@@ -66,7 +67,7 @@ const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals }) => {
             <div className="modifyGoalContainer">
                 <div className="formTitleContainer">
                     <h3>Let's {mode} your task</h3>
-                    <button onClick={() => setShowModifyGoal(false)}>X</button>
+                    <button className="exitEditButton" onClick={() => setShowModifyGoal(false)}>X</button>
                 </div>
 
                 <form className="goalModifyForm">
@@ -87,7 +88,7 @@ const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals }) => {
                             min="0"
                             max="100"
                             name="target_value"
-                            value={data.target_val}
+                            value={data.target_value}
                             onChange={handleChange}
                         />
                         <label htmlFor="current_value">Current Value</label>
@@ -98,7 +99,7 @@ const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals }) => {
                             min="0"
                             max="100"
                             name="current_value"
-                            value={data.current_val}
+                            value={data.current_value}
                             onChange={handleChange}
                         />
                         <input className={mode} type="submit" onClick={editMode ? editGoal: postGoal}/>
