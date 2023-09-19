@@ -43,7 +43,7 @@ const App = () => {
         }
       </div>
       <div className="dailyLogSection">
-        {goals && <DailyLog goals = {goals}/>}
+        {goals && <DailyLog goals = {goals} getGoals = {getGoals}/>}
       </div>
 
      

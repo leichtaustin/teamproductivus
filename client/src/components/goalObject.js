@@ -30,6 +30,7 @@ const GoalItem = ({goal, getGoals}) => {
             console.error(err);
         }
     }
+    //`hsla(${(goal.current_val / goal.target_val) * 100}, 100%, 50%, 1)`
 
     return (
         <li className="goalItem">
@@ -38,7 +39,8 @@ const GoalItem = ({goal, getGoals}) => {
                 <p className="target_val">{goal.target_val}</p>
                 <p className="current_val">{goal.current_val}</p>
                 <div className='progressBarContainer'>
-                    <div className='progress' style={{ width: `${progressPerc}%`, backgroundColor: backgroundColor }}>
+                    <div className='progress' style={{ width: `${(goal.current_val / goal.target_val) * 100}%`, 
+                        backgroundColor: `hsla(${((goal.current_val / goal.target_val) * 100) - 10}, 100%, 50%, .82)` }}>
                     </div>
                 </div>
             </div>
