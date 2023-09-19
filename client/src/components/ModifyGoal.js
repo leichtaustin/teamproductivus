@@ -13,7 +13,10 @@ const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals, setProgressPerc 
         user_email: editMode ? goal.user_email : cookies.Email,
         goal_name: editMode ? goal.goal_name : null,
         target_value: editMode ? goal.target_val : 1,
-        current_value: editMode ? goal.current_val : 0
+        current_value: editMode ? goal.current_val : 0,
+        daily_value: editMode ? goal.daily_val : 0,
+        sprint_id: 1,
+        last_update: new Date().getDate()
     })
 
     const postGoal = async (e) => {

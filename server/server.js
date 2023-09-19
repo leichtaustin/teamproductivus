@@ -79,10 +79,10 @@ app.post('/goals', async (req, res) => {
 
 app.put('/goals/:id', async (req, res) => {
     const { id } = req.params;
-    const { user_email, goal_name, target_value, current_value } = req.body;
+    const { user_email, goal_name, target_value, current_value, daily_value, sprint_id, last_update } = req.body;
     try {
-        const editGoal = await pool.query(`UPDATE goal_obj SET user_email = $1, goal_name = $2, target_val = $3, current_val = $4 WHERE id = $5;`, 
-            [user_email, goal_name, target_value, current_value, id]);
+        const editGoal = await pool.query(`UPDATE goal_obj SET user_email = $1, goal_name = $2, target_val = $3, current_val = $4, sprint_id = $5, last_update = $6, daily_val = $7 WHERE id = $8;`, 
+            [user_email, goal_name, target_value, current_value, sprint_id, last_update, daily_value, id]);
         res.json(editGoal);
     } catch (err) {
         console.error(err);

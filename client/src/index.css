@@ -74,6 +74,7 @@ body {
   background-color: rgb(216, 216, 216);
   border-radius: 7px;
   overflow: hidden;
+  border: 1px solid rgba(0,0,0, 0.4);
 }
 
 .progress {
@@ -174,6 +175,7 @@ input {
 .goalItem p {
   margin: 10px;
 }
+
 
 /* Daily Log */
 

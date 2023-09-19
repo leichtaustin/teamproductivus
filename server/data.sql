@@ -1,3 +1,5 @@
+-- '\c productivus'
+
 CREATE DATABASE productivus;
 
 
@@ -6,7 +8,9 @@ CREATE TABLE goal_obj (
     user_email VARCHAR(255),
     goal_name VARCHAR(55),
     target_val DECIMAL,
-    current_val DECIMAL
+    current_val DECIMAL,
+    sprint_id VARCHAR(255),
+    last_update DATE
 );
 
 CREATE TABLE users (

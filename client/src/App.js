@@ -20,8 +20,24 @@ const App = () => {
       const response = await fetch(`${process.env.REACT_APP_SERVERURL}/goals/${user_email}`);
       const json = await response.json();
 
+      //sort array
+      json.sort((a, b) => {
+        const goalA = a.goal_name.toUpperCase();
+        const goalB = b.goal_name.toUpperCase();
+
+        if (goalA < goalB) {
+          return -1;
+        }
+        if (goalA > goalB) {
+          return 1;
+        }
+
+        return 0;
+      })
+
       setGoals(json);
-      console.log('Goals should be set')
+
+      //console.log('Goals should be set')
     } catch (err) {
       console.error(err);
     }

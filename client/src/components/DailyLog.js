@@ -1,10 +1,12 @@
 
 const DailyLog = ({goals, getGoals }) => {
-    
 
+    const currentDate = new Date().getDate();
+    
 
     const postGoal = async (e) => {
         e.preventDefault();
+        const date = new Date();
         goals.map( async (goal) => {
             const newCurrentValue = Number(document.getElementById(goal.goal_name).value) + Number(goal.current_val);
             try {
@@ -15,7 +17,10 @@ const DailyLog = ({goals, getGoals }) => {
                         user_email: goal.user_email,
                         goal_name: goal.goal_name,
                         target_value: goal.target_val,
-                        current_value: newCurrentValue
+                        current_value: newCurrentValue,
+                        daily_value: Number(document.getElementById(goal.goal_name).value),
+                        sprint_id: 1,
+                        last_update: date.getDate()
                     })
                 })
     
@@ -40,7 +45,8 @@ const DailyLog = ({goals, getGoals }) => {
                             <input 
                                 type="number" 
                                 id={goal.goal_name} 
-                                defaultValue={0}
+                                defaultValue={(goal.last_update < currentDate) ? 0 : (goal.daily_val ? goal.daily_val : 0)}
+                                min={0}
                                 />
                         </div>
                     )
