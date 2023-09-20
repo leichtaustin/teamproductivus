@@ -20,3 +20,9 @@ CREATE TABLE users (
 
 INSERT INTO goal_obj (id, user_email, goal_name, target_val, current_val) VALUES (2, 'austin@test.com', 'second goal', 10, 1);
 
+CREATE TABLE sprints (
+    id VARCHAR(255) PRIMARY KEY,
+    sprint_name VARCHAR(255),
+    sprint_start_date DATE NOT NULL,
+    sprint_end_date DATE NOT NULL
+)

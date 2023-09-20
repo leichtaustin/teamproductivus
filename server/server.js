@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 app.use(cors());
 app.use(express.json());
 
+//get goals
 app.get('/goals/:userEmail', async (req, res) => {
 const {userEmail} = req.params;
 
@@ -100,5 +101,38 @@ app.delete('/goals/:id', async(req, res) => {
     }
 })
 
+//create a sprint
+app.post('/sprints', async (req, res) => {
+    const { sprint_name, sprint_start_date, sprint_end_date } = req.body;
+    const id = uuidv4();
+    try {
+        const newSprint = await pool.query(`INSERT INTO sprints (id, sprint_name, sprint_start_date, sprint_end_date) VALUES ($1, $2, $3, $4);`,
+            [id, sprint_name, sprint_start_date, sprint_end_date]);
+        res.json(newSprint);
+    } catch (err) {
+        console.error(err);
+    }
+})
+
+//get sprints
+app.get('/sprints', async (req, res) => {
+        try {
+            const sprints = await pool.query('SELECT * FROM sprints;');
+            res.json(sprints.rows);
+        } catch (err) {
+            console.error(err);
+        }
+    })
+
+//delete a sprint
+app.delete('/sprints/:id', async(req, res) => {
+    const { id } =  req.params;
+    try {
+        const deleteSprint = await pool.query('DELETE FROM sprints WHERE id = $1;', [id]);
+        res.json(deleteSprint);
+    } catch (err) {
+        console.error(err)
+    }
+})
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));

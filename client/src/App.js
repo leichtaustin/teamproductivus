@@ -1,5 +1,7 @@
 import PageHeader from "./components/PageHeader";
 import SprintCard from "./components/SprintCard";
+import ModifySprint from "./components/ModifySprint";
+import SprintList from "./components/SprintList";
 import Auth from "./components/Auth";
 import { useState, useEffect } from "react";
 import { useCookies } from 'react-cookie';
@@ -8,7 +10,9 @@ import DailyLog from "./components/DailyLog";
 const App = () => {
   
   const [ goals, setGoals ] = useState(null);
+  const [ sprints, setSprints ] = useState(null);
   const [ cookies, setCookie, removeCookie ] = useCookies(null);
+  const [ showModifySprint, setShowModifySprint ] = useState(false);
   const authToken = cookies.AuthToken;
   const user_email = cookies.Email;
   
@@ -43,23 +47,59 @@ const App = () => {
     }
   }
 
+    //get sprints from db
+    const getSprints = async () => {
+      try {
+        console.log('Entered getSprint')
+        const response = await fetch(`${process.env.REACT_APP_SERVERURL}/sprints`);
+        console.log(response)
+        const json = await response.json();
+        console.log(json)
+  
+        setSprints(json);
+        console.log(sprints)
+  
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
   useEffect(() => {
-    getGoals();
+    if(authToken) {
+      getGoals();
+      getSprints();
+    }
   }, []);
+
+
   
   return (
     <div className="App">
-      <div className="sprintSection">
-        <PageHeader />
-        {!authToken && <Auth />}
-        {authToken &&
-          <>
-            <SprintCard goals={goals} getGoals = {getGoals}/>
-          </>
-        }
+      <div className="daily_goals">
+        <div className="sprintSection">
+          <PageHeader />
+          {!authToken && <Auth />}
+          {authToken &&
+            <>
+              <div className="button-container">
+                <button className="create" onClick={() => setShowModifySprint(true)}>Create Sprint</button>
+              </div>
+              <SprintCard goals={goals} getGoals = {getGoals}/>
+            </>
+          }
+        </div>
+        <div className="dailyLogSection">
+          {goals && <DailyLog goals = {goals} getGoals = {getGoals}/>}
+        </div>
       </div>
-      <div className="dailyLogSection">
-        {goals && <DailyLog goals = {goals} getGoals = {getGoals}/>}
+
+      <div className="upcomingSprints">
+          {sprints && <SprintList sprints = {sprints} getSprints = {getSprints}/>}
+      </div>
+
+
+      <div className="ModifySprintOverlay">
+        {showModifySprint && <ModifySprint mode = {'Create'} setShowModifySprint = {setShowModifySprint}/>}
       </div>
 
      

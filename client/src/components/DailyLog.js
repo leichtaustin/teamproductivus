@@ -8,7 +8,13 @@ const DailyLog = ({goals, getGoals }) => {
         e.preventDefault();
         const date = new Date();
         goals.map( async (goal) => {
-            const newCurrentValue = Number(document.getElementById(goal.goal_name).value) + Number(goal.current_val);
+            const newCurrentValue = (
+                (goal.daily_val === Number(document.getElementById(goal.goal_name).value) 
+                ? Number(goal.current_val) 
+                : ((goal.daily_val > Number(document.getElementById(goal.goal_name).value)) 
+                    ? Number(goal.current_val) - (goal.daily_val - Number(document.getElementById(goal.goal_name).value))
+                    : (Number(document.getElementById(goal.goal_name).value) - goal.daily_val) + Number(goal.current_val)))
+            )
             try {
                 const response = await fetch(`${process.env.REACT_APP_SERVERURL}/goals/${goal.id}`, {
                     method : "PUT",
