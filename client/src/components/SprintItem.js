@@ -1,4 +1,4 @@
-const SprintItem = ({ sprint, getSprints }) => {
+const SprintItem = ({ sprint, getSprints, setActiveSprint, getGoals }) => {
 
     const day = sprint.sprint_start_date;
 
@@ -15,6 +15,11 @@ const SprintItem = ({ sprint, getSprints }) => {
         }
     }
 
+    const handleSetActive = () => {
+        setActiveSprint(sprint);
+        getGoals();
+    }
+
     return (
         <li className="sprintItem">
             <div className="infoContainer">
@@ -22,6 +27,7 @@ const SprintItem = ({ sprint, getSprints }) => {
                 <p className="sprintStartDate">{day}</p>
                 <p className="sprintEndDate">{sprint.sprint_end_date}</p>
                 <button onClick={deleteSprint}>DELETE</button>
+                <button onClick={handleSetActive}>SET ACTIVE</button>
             </div>
 
         </li>

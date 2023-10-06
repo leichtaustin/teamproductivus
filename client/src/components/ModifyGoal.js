@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 import { useState } from 'react';
 
 
-const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals, setProgressPerc }) => {
+const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals, setProgressPerc, activeSprint }) => {
     
     const [cookies, setCookie, removeCookie] = useCookies(null);
     
@@ -15,7 +15,7 @@ const ModifyGoal = ( { mode, setShowModifyGoal, goal, getGoals, setProgressPerc 
         target_value: editMode ? goal.target_val : 1,
         current_value: editMode ? goal.current_val : 0,
         daily_value: editMode ? goal.daily_val : 0,
-        sprint_id: 1,
+        sprint_id: activeSprint.id,
         last_update: new Date().getDate()
     })
 

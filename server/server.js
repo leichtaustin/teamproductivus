@@ -12,11 +12,11 @@ app.use(cors());
 app.use(express.json());
 
 //get goals
-app.get('/goals/:userEmail', async (req, res) => {
-const {userEmail} = req.params;
+app.get('/goals/:userEmail/:sprintid', async (req, res) => {
+const {userEmail, sprintid} = req.params;
 
     try {
-        const goals = await pool.query('SELECT * FROM goal_obj WHERE user_email = $1;', [userEmail]);
+        const goals = await pool.query('SELECT * FROM goal_obj WHERE user_email = $1 AND sprint_id = $2;', [userEmail, sprintid]);
         res.json(goals.rows);
     } catch (err) {
         console.error(err);
@@ -65,11 +65,11 @@ app.post('/login', async (req, res) => {
 
 //create a new goal
 app.post('/goals', async (req, res) => {
-    const { user_email, goal_name, target_value, current_value } = req.body;
+    const { user_email, goal_name, target_value, current_value, sprint_id } = req.body;
     const id = uuidv4();
     try {
-        const newGoal = await pool.query(`INSERT INTO goal_obj (id, user_email, goal_name, target_val, current_val) VALUES ($1, $2, $3, $4, $5);`,
-            [id, user_email, goal_name, target_value, current_value]);
+        const newGoal = await pool.query(`INSERT INTO goal_obj (id, user_email, goal_name, target_val, current_val, sprint_id) VALUES ($1, $2, $3, $4, $5, $6);`,
+            [id, user_email, goal_name, target_value, current_value, sprint_id]);
         res.json(newGoal);
     } catch (err) {
         console.error(err);
@@ -115,9 +115,9 @@ app.post('/sprints', async (req, res) => {
 })
 
 //get sprints
-app.get('/sprints', async (req, res) => {
-        try {
-            const sprints = await pool.query('SELECT * FROM sprints;');
+app.get('/sprints', async (req, res) => {  
+    try {
+            const sprints = await pool.query('SELECT * FROM sprints ORDER BY sprint_start_date ASC;');
             res.json(sprints.rows);
         } catch (err) {
             console.error(err);

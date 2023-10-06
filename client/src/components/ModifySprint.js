@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-const ModifySprint = ({ mode, setShowModifySprint }) => {
+const ModifySprint = ({ mode, setShowModifySprint, getSprints }) => {
 
     const sprintSample =  {
         sprint_id: '1',
         sprint_name: 'firstSprint',
-        sprint_start_date: '2020-05-20',
-        sprint_end_date: '2020-05-30'
+        sprint_start_date: '2023-09-19',
+        sprint_end_date: '2023-09-30'
     }
 
     const [data, setData] = useState({
@@ -35,7 +35,7 @@ const ModifySprint = ({ mode, setShowModifySprint }) => {
 
             if (response.status === 200) {
                 setShowModifySprint(false);
-                //getSprints() function to display sprints below (limit 3 or 5)
+                getSprints();
                 console.log('Sprint Added');
             }
         } catch (err) {

@@ -1,5 +1,5 @@
 
-const DailyLog = ({goals, getGoals }) => {
+const DailyLog = ({goals, getGoals, activeSprint }) => {
 
     const currentDate = new Date().getDate();
     
@@ -25,7 +25,7 @@ const DailyLog = ({goals, getGoals }) => {
                         target_value: goal.target_val,
                         current_value: newCurrentValue,
                         daily_value: Number(document.getElementById(goal.goal_name).value),
-                        sprint_id: 1,
+                        sprint_id: activeSprint.id,
                         last_update: date.getDate()
                     })
                 })
