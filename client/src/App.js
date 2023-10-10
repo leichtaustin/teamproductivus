@@ -11,12 +11,14 @@ const App = () => {
   
   const [ goals, setGoals ] = useState(null);
   const [ sprints, setSprints ] = useState(null);
+  const [ sprintTot, setSprintTot ] = useState(0);
   const [ activeSprint, setActiveSprint ] = useState(null);
   const [ pastSprints, setPastSprints ] = useState(null);
   const [ cookies, setCookie, removeCookie ] = useCookies(null);
   const [ showModifySprint, setShowModifySprint ] = useState(false);
   const authToken = cookies.AuthToken;
   const user_email = cookies.Email;
+  let sprintPerc = 0;
   
   
   //get goal list from db
@@ -59,7 +61,8 @@ const App = () => {
   
         setSprints(json);
         console.log(json);
-        setActiveSprint(json[0])
+        const firstSprint = json.find((sprint) => sprint.sprint_start_date >= new Date().toISOString().split('T')[0])
+        setActiveSprint(firstSprint)
   
       } catch (err) {
         console.error(err);
@@ -77,6 +80,18 @@ const App = () => {
     getGoals();
   }, [activeSprint])
 
+  useEffect(() => {
+    sprintPerc = 0;
+    goals?.map((goal) => {
+      sprintPerc += (Number(goal.current_val) / Number(goal.target_val));
+      console.log(`Sprint Perc: ${sprintPerc}`)
+    })
+    if (goals) {
+      setSprintTot(sprintPerc / goals.length);
+      console.log(`Final Sprint Perc: ${sprintPerc}`)
+    }
+  }, [goals])
+
 
   
   return (
@@ -90,6 +105,7 @@ const App = () => {
               <div className="button-container">
                 <button className="create" onClick={() => setShowModifySprint(true)}>Create Sprint</button>
               </div>
+              <p>{sprintTot}</p>
               <SprintCard goals={goals} getGoals = {getGoals} activeSprint = {activeSprint}/>
             </>
           }

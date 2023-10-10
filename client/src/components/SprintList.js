@@ -9,19 +9,18 @@ const SprintList = ( { sprints, getSprints, setActiveSprint, getGoals }) => {
             this.count++;
             return sprint;
         } else {
-            console.log("We hit false")
             return false;
         }
-    }, {count: 0, date: new Date().toISOString()})
+    }, {count: 0, date: new Date().toISOString().split('T')[0]})
 
     const pastSprints = sprints.filter(function(sprint) {
-        if (sprint.sprint_end_date < this.date && this.count < 3) {
+        if (sprint.sprint_start_date < this.date && this.count < 3) {
             this.count++;
             return sprint;
         } else {
             return false;
         }
-    }, {count: 0, date: new Date().toISOString()});
+    }, {count: 0, date: new Date().toISOString().split('T')[0]});
     
     return (
         <div className="sprintListContainer">

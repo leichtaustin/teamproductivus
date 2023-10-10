@@ -2,17 +2,13 @@ import { useState } from 'react';
 
 const ModifySprint = ({ mode, setShowModifySprint, getSprints }) => {
 
-    const sprintSample =  {
-        sprint_id: '1',
-        sprint_name: 'firstSprint',
-        sprint_start_date: '2023-09-19',
-        sprint_end_date: '2023-09-30'
-    }
+    const date = new Date();
+    const todaysDate = new Date(date).toISOString().split('T')[0];
 
     const [data, setData] = useState({
-        sprint_name: sprintSample.sprint_name,
-        sprint_start_date: sprintSample.sprint_start_date,
-        sprint_end_date: sprintSample.sprint_end_date
+        sprint_name: `Sprint starting ${todaysDate}`,
+        sprint_start_date: todaysDate,
+        sprint_end_date: null,
     })
 
     const handleChange = (e) => {
@@ -70,10 +66,10 @@ const ModifySprint = ({ mode, setShowModifySprint, getSprints }) => {
                         required
                         type='date'
                         id='sprint_start_date'
-                        value={data.sprint_start_date}
-                        defaultValue={new Date()}
+                        defaultValue={todaysDate}
                         name='sprint_start_date'
                         onChange={handleChange}
+                        min={todaysDate}
                     />
                     <label htmlFor='sprint_end_date'>
                         Sprint End Date
@@ -82,8 +78,7 @@ const ModifySprint = ({ mode, setShowModifySprint, getSprints }) => {
                         required
                         type='date'
                         id='sprint_end_date'
-                        value={data.sprint_end_date}
-                        min={data.sprint_start_date}
+                        min={todaysDate}
                         name='sprint_end_date'
                         onChange={handleChange}
                     />
