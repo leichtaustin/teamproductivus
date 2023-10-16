@@ -25,4 +25,5 @@ CREATE TABLE sprints (
     sprint_name VARCHAR(255),
     sprint_start_date DATE NOT NULL,
     sprint_end_date DATE NOT NULL
+    user_email VARCHAR(255)
 )

@@ -103,11 +103,11 @@ app.delete('/goals/:id', async(req, res) => {
 
 //create a sprint
 app.post('/sprints', async (req, res) => {
-    const { sprint_name, sprint_start_date, sprint_end_date } = req.body;
+    const { sprint_name, sprint_start_date, sprint_end_date, user_email } = req.body;
     const id = uuidv4();
     try {
-        const newSprint = await pool.query(`INSERT INTO sprints (id, sprint_name, sprint_start_date, sprint_end_date) VALUES ($1, $2, $3, $4);`,
-            [id, sprint_name, sprint_start_date, sprint_end_date]);
+        const newSprint = await pool.query(`INSERT INTO sprints (id, sprint_name, sprint_start_date, sprint_end_date, user_email) VALUES ($1, $2, $3, $4, $5);`,
+            [id, sprint_name, sprint_start_date, sprint_end_date, user_email]);
         res.json(newSprint);
     } catch (err) {
         console.error(err);
@@ -115,9 +115,11 @@ app.post('/sprints', async (req, res) => {
 })
 
 //get sprints
-app.get('/sprints', async (req, res) => {  
+app.get('/sprints/:user_email', async (req, res) => {  
+    
+    const {user_email} = req.params;
     try {
-            const sprints = await pool.query('SELECT * FROM sprints ORDER BY sprint_start_date ASC;');
+            const sprints = await pool.query('SELECT * FROM sprints WHERE user_email = $1 ORDER BY sprint_start_date ASC;', [user_email]);
             res.json(sprints.rows);
         } catch (err) {
             console.error(err);

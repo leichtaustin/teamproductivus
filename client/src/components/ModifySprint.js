@@ -1,14 +1,17 @@
 import { useState } from 'react';
+import { useCookies } from "react-cookie";
 
 const ModifySprint = ({ mode, setShowModifySprint, getSprints }) => {
 
     const date = new Date();
     const todaysDate = new Date(date).toISOString().split('T')[0];
+    const [cookies, setCookie, removeCookie] = useCookies(null);
 
     const [data, setData] = useState({
         sprint_name: `Sprint starting ${todaysDate}`,
         sprint_start_date: todaysDate,
         sprint_end_date: null,
+        user_email: cookies.Email,
     })
 
     const handleChange = (e) => {

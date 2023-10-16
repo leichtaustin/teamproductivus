@@ -56,7 +56,7 @@ const App = () => {
 
       
       try {
-        const response = await fetch(`${process.env.REACT_APP_SERVERURL}/sprints`);
+        const response = await fetch(`${process.env.REACT_APP_SERVERURL}/sprints/${user_email}`);
         const json = await response.json();
   
         setSprints(json);
@@ -105,9 +105,18 @@ const App = () => {
               <div className="button-container">
                 <button className="create" onClick={() => setShowModifySprint(true)}>Create Sprint</button>
               </div>
-              <p>{sprintTot}</p>
               <SprintCard goals={goals} getGoals = {getGoals} activeSprint = {activeSprint}/>
+              <div className="upcomingSprints">
+                  {sprints && <SprintList sprints = {sprints} getSprints = {getSprints} setActiveSprint = {setActiveSprint} getGoals={getGoals}/>}
+              </div>
+
+
+              <div className="ModifySprintOverlay">
+                {showModifySprint && <ModifySprint mode = {'Create'} setShowModifySprint = {setShowModifySprint} getSprints = {getSprints}/>}
+              </div>
             </>
+
+            
           }
         </div>
         {/* <div className="dailyLogSection">
@@ -115,14 +124,7 @@ const App = () => {
         </div> */}
       </div>
 
-      <div className="upcomingSprints">
-          {sprints && <SprintList sprints = {sprints} getSprints = {getSprints} setActiveSprint = {setActiveSprint} getGoals={getGoals}/>}
-      </div>
 
-
-      <div className="ModifySprintOverlay">
-        {showModifySprint && <ModifySprint mode = {'Create'} setShowModifySprint = {setShowModifySprint} getSprints = {getSprints}/>}
-      </div>
 
      
 

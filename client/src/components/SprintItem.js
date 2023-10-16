@@ -24,8 +24,14 @@ const SprintItem = ({ sprint, getSprints, setActiveSprint, getGoals }) => {
                 <p className="sprintName">{sprint.sprint_name}</p>
                 <p className="sprintStartDate">Start Date: {sprint.sprint_start_date.split('T')[0]}</p>
                 <p className="sprintEndDate">End Date: {sprint.sprint_end_date.split('T')[0]}</p>
-                <button onClick={deleteSprint}>DELETE</button>
-                <button onClick={handleSetActive}>VIEW</button>
+                <div className="button-container">
+                    <button className="create" onClick={deleteSprint}>DELETE</button>
+                </div>
+                <div className="button-container">
+                    <button className="create" onClick={handleSetActive}>VIEW DETAILS</button>
+                </div>
+
+
             </div>
 
         </li>

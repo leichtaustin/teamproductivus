@@ -11,7 +11,7 @@ const PageHeader = () => {
 
     return (
         <div className="pageHeader">
-            <h1>Accountability App</h1>
+            <h1>Goal Tracker</h1>
             <div className="button-container">
                 <button className="signout" onClick={signOut}>
                     SIGN OUT
