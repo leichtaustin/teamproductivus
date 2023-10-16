@@ -10,7 +10,8 @@ CREATE TABLE goal_obj (
     target_val DECIMAL,
     current_val DECIMAL,
     sprint_id VARCHAR(255),
-    last_update DATE
+    last_update DATE,
+    daily_val DECIMAL
 );
 
 CREATE TABLE users (
